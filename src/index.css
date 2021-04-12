@@ -1,6 +1,17 @@
+@font-face {
+  font-family: 't2rcaps';
+  src: local('t2rcaps'), url(./fonts/t2rcaps.TTF) format('truetype');
+}
+
+@font-face {
+  font-family: 't2rtitle';
+  src: local('t2rtitle'), url(./fonts/t2rtitle.TTF) format('truetype');
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  overflow: hidden;
+  font-family: 't2rcaps', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,4 +21,117 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1, h2, h3 {
+  font-family: 't2rtitle';
+  padding-top: 10px;
+}
+
+hr {
+  border: 1px solid white;
+}
+
+.mainStyle {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  text-align: center;
+  background-image: url("/src/assets/main.png");
+}
+
+.preLobbyStyle {
+  background-color: rgb(145, 90, 16, 0.8);
+  color: white;
+  position: absolute;
+  width: 60%;
+  left: 50%; 
+  top: 65%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  border-radius: 10px;
+}
+
+.ruleStyle {
+  height: 60%;
+  flex: 1;
+  overflow-y: scroll;
+  text-align: justify;
+  padding: 0px 20px 0px 20px;
+}
+
+.lobbyStyle {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  text-align: center;
+  background-image: url("/src/assets/lobby.jpeg");
+}
+
+.lobbyDivStyle {
+    background-color: rgb(102, 34, 0, 0.8);
+    color: white;
+    position: absolute;
+    width: 60%;
+    left: 50%; 
+    top: 45%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    border-radius: 10px;
+    height: 43vh;
+}
+
+.preLobbyRow {
+  padding: 10px 0px 20px 0px;
+}
+
+.portraitCol {
+  display: flex;
+  align-items: center;
+}
+
+.inputCol {
+  display: flex;
+  align-items: center;
+}
+
+.mapStyle {
+  height: 86vh;
+}
+
+.tableStyle {
+  height: 85vh;
+  padding: 0px !important;
+}
+
+.cardStyle {
+  height: 100px;
+  margin: 5px;
+  border-radius: 12px;
+}
+
+.ticketStyle {
+  background-color: rgb(168, 131, 20);
+  height: 100px;
+  width: 155px;
+  float: left;
+  color: white;
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 12px;
+  margin: 5px;
+}
+
+.ticketStyle p {
+  padding: 0px;
+  margin: 0px;
+}
+
+.gameBackground {
+  background-image: url("/src/assets/table.jpg");
+  background-repeat: repeat;
+}
+
+.historyStyle {
+  color: white;
 }
