@@ -7,10 +7,10 @@ const AvatarContainer = () => {
 
     const avatars = [];
     avatars.push(
-        <Avatar key="1" portrait={lobbyValue.picture} name={lobbyValue.name} remainingTrains="45"/>
+        <Avatar key="1" portrait={lobbyValue?.picture || 1 } name={lobbyValue?.name || "Player 1"} remainingTrains="45"/>
     );
 
-    for(let i = 1; i <= lobbyValue.numberOfPlayers - 1; i++) {
+    for(let i = 1; i <= (lobbyValue?.numberOfPlayers || 2) - 1; i++) {
         avatars.push(
             <Avatar key={i+1} portrait={i} name={"Player " + i} remainingTrains="45"/>
         );

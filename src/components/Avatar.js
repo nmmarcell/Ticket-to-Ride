@@ -18,11 +18,11 @@ const Avatar = (props) => {
             </tr>
             <tr>
                 <td>Vonatok: 45</td>
-                <td>Kártyák:</td>
+                <td>Kártyák: 3</td>
             </tr>
             <tr>
-                <td>Célok: 3</td>
-                <td>Kör:</td>
+                <td>Célok: 2</td>
+                <td>Kör: 1</td>
             </tr>
         </table>
         <hr style={{border: "1px dashed white", margin: "5px"}}/>

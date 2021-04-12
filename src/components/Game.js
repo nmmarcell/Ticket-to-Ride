@@ -27,15 +27,15 @@ const Game = () => {
                 <Col>
                     <Card type="ticketBack"/>
                     <Card type="trainBack"/>
-                    <CardHolder number="5" type="train" styleToUse={trainDeckIn}/>
+                    <CardHolder number="5" type="train" selectedStyle="selectedCardStyleLeft"/>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{paddingTop: "20px"}}>
                 <Col sm={4}>
-                    <CardHolder number="3" type="ticket"/>
+                    <CardHolder number="3" type="ticket" />
                 </Col>
-                <Col sm={8}>
-                    <CardHolder number="4" type="train"/>
+                <Col sm={8} style={{alignItems:"center"}}>
+                    <CardHolder number="5" type="train" selectedStyle="selectedCardStyleUp"/>
                 </Col>
 
             </Row>

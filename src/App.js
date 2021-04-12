@@ -7,6 +7,7 @@ import JoinLobby from './components/JoinLobby';
 import Lobby from './components/Lobby';
 import Rules from './components/Rules';
 import Game from './components/Game';
+import ScoreBoard from './components/ScoreBoard';
 import { LobbyContext } from './components/LobbyContext';
 import { useState } from 'react';
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/joinlobby" component={JoinLobby}/>
             <Route path="/lobby" component={Lobby}/>
             <Route path="/game" component={Game}/>
+            <Route path="/endscreen" component={ScoreBoard}/>
           </LobbyContext.Provider>
         </Switch>
       </Router>

@@ -43,13 +43,14 @@ hr {
 .preLobbyStyle {
   background-color: rgb(145, 90, 16, 0.8);
   color: white;
-  position: absolute;
   width: 60%;
   left: 50%; 
   top: 65%;
+  position: absolute;
   transform: translate(-50%, -50%);
   align-items: center;
   border-radius: 10px;
+  height: 37vh;
 }
 
 .ruleStyle {
@@ -105,15 +106,46 @@ hr {
 }
 
 .cardStyle {
-  height: 100px;
+  bottom: 0;
+  z-index: 0;
+  height: 80px;
   margin: 5px;
   border-radius: 12px;
+  transition: all 1s;
+}
+
+.cardStyle:hover {
+  z-index: 0;
+  height: 90px;
+  margin: 5px;
+  border-radius: 12px;
+  transition: all 1s;
+  bottom: 10;
+}
+
+.selectedCardStyleLeft {
+  height: 80px;
+  margin: 5px;
+  border-radius: 12px;
+  padding-right: 40px;
+  z-index: 1000;
+  transition: all 1s;
+}
+
+.selectedCardStyleUp {
+  height: 80px;
+  bottom: 10%;
+  border-radius: 12px;
+  margin-bottom: 50px;
+  margin-top: -120px;
+  z-index: 1000;
+  transition: all 1s;
 }
 
 .ticketStyle {
   background-color: rgb(168, 131, 20);
-  height: 100px;
-  width: 155px;
+  height: 80px;
+  width: 140px;
   float: left;
   color: white;
   font-weight: bold;
@@ -130,8 +162,33 @@ hr {
 .gameBackground {
   background-image: url("/src/assets/table.jpg");
   background-repeat: repeat;
+  height: 100vh;
 }
 
 .historyStyle {
   color: white;
+}
+
+.scoreBoardStyle {
+  background-image: url("/src/assets/table.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  height: 100vh;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.scoreBoardStyle p {
+  margin: 5px;
+}
+
+.scoreStyle {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(77, 77, 77, 0.5);
+  border: 1px solid white;
+  border-radius: 20px;
+  width: 100%;
 }
