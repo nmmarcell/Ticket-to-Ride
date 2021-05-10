@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 import "../index.css";
+import gameActions from "../store/game/action";
 
 const City = (props) => {
     const [selected, setSelected] = useState(false);
 
     const handleClick = () => {
         setSelected(!selected);
+        props.faszJanoslogger();
     };
 
     const cityStyle = {
@@ -23,5 +26,14 @@ const City = (props) => {
         <div onClick={handleClick} style={cityStyle}></div>
     );
 }
+
+function mapState(state) {
+    const { faszJanos } = state.game;
+    return { faszJanos };
+}
+
+const actionCreator = {
+    faszJanoslogger: gameActions.logAction
+};
  
-export default City;
+export default connect(mapState, actionCreator)(City);

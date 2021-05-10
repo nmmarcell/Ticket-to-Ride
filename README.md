@@ -2,7 +2,7 @@
 <Y5G10Z>
 <Kliensoldali webprogramozás, Ticket to Ride>
 <2021.04.10>
-Ezt a megoldást <Nagymáthé Marcell, Neptun ID> küldte be és készítette a <kliensoldali webprogramozás> kurzus <Ticket to Ride> feladatához.
+Ezt a megoldást <Nagymáthé Marcell, Y5G10Z> küldte be és készítette a <kliensoldali webprogramozás> kurzus <Ticket to Ride> feladatához.
 Kijelentem, hogy ez a megoldás a saját munkám.
 Nem másoltam vagy használtam harmadik féltől származó megoldásokat.
 Nem továbbítottam megoldást hallgatótársaimnak, és nem is tettem közzé.

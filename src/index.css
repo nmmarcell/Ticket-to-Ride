@@ -161,7 +161,8 @@ hr {
 
 .gameBackground {
   background-image: url("/src/assets/table.jpg");
-  background-repeat: repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 100vh;
 }
 
