@@ -1,3 +1,3 @@
 export const types = {
-    FASZ_JANOS: "/FASZ_JÁNOS"
+    DRAW_CARD: "DRAW_CARD"
 }; 

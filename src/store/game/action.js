@@ -1,12 +1,11 @@
 import { types } from "./types";
 
-const logAction = (faszJanos) => {
-    console.log(faszJanos);
-    return dispatch => dispatch({type: types.FASZ_JANOS});
+const draw = (color) => {
+    return dispatch => dispatch({type: types.FASZ_JANOS, color: color});
 }
 
 const actions = {
-    logAction
+    draw
 };
 
 export default actions;
