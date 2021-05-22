@@ -4,21 +4,28 @@ import "../index.css";
 import { Col, Container, Row } from "react-bootstrap";
 import Portrait from "./Portrait";
 import { LobbyContext } from "./LobbyContext";
+import { connect } from "react-redux";
+import gameActions from "../store/game/action";
 
-const Lobby = () => {
+const Lobby = (props) => {
     let random = Math.floor(Math.random() * 900000) + 100000;
     const [lobbyNumber, setLobbyNumber] = useState(random);
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
 
+    function addPlayers() { 
+        props.addNewPlayer(lobbyValue.name, lobbyValue.picture);
+        props.addNewPlayer("Player 2", 2);
+    }
+
     const avatars = [];
     avatars.push(
         <Col>
-            <Portrait size="100" number={lobbyValue.picture} />
-            <p><i>{lobbyValue.name}</i></p>
+            <Portrait size="100" number={lobbyValue?.picture || 0} />
+            <p><i>{lobbyValue?.name || ""}</i></p>
         </Col>
     );
 
-    for(let i = 1; i <= lobbyValue.numberOfPlayers - 1; i++) {
+    for(let i = 1; i <= (lobbyValue?.numberOfPlayers || 2) - 1; i++) {
         avatars.push(
             <Col>
                 <Portrait size="100" number="5"/>
@@ -35,10 +42,19 @@ const Lobby = () => {
                         {avatars}
                     </Row>
                     <LinkButton whereto="/" txt="Vissza a menübe" />
-                    <LinkButton whereto="/game" txt="Indítás" />
+                    <LinkButton whereto="/game" txt="Indítás" onClick={addPlayers}/>
                 </Container>
             </div>
      );
 }
+
+function mapState(state) {
+    const { players } = state.game;
+    return { players };
+}
+
+const actionCreator = {
+    addNewPlayer: gameActions.addPlayer
+};
  
-export default Lobby;
+export default connect(mapState, actionCreator)(Lobby);

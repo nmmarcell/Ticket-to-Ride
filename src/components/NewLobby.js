@@ -61,7 +61,7 @@ const NewLobby = () => {
                 
                 <LinkButton whereto="/" txt="Vissza" size="300px"/>
                 <LinkButton whereto="lobby" txt="Váró létrehozása" size="300px" isDisabled={isLinkDisabled}
-                continueFunction={handleLobby}/>
+                onClick={handleLobby}/>
             </div>
         </div> 
     );

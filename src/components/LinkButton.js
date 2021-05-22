@@ -17,7 +17,10 @@ const LinkButton = (props) => {
         if(props.isDisabled) e.preventDefault();
     };
 
-    const handleButtonClick = props.continueFunction;
+    const handleButtonClick = () => {
+        if(props.onClick) 
+            props.onClick();
+    } 
 
     return (
         <Link to={props.whereto} onClick={handleLinkClick}>

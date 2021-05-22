@@ -8,31 +8,28 @@ const pStyle = {
 }
 
 const Avatar = (props) => {
+
     return ( 
-    <div>
-        <Portrait style={{margin: "0px"}} number={props.portrait} size="40"/>
-        <table style={{color: "white", fontSize:"14px", margin: "auto", textAlign:"left"}}>
-            <tr>
-                <td style={{fontWeight:"bold"}}>{props.name}</td>
-                <td>Pont: </td>
-            </tr>
-            <tr>
-                <td>Vonatok: 45</td>
-                <td>Kártyák: 3</td>
-            </tr>
-            <tr>
-                <td>Célok: 2</td>
-                <td>Kör: 1</td>
-            </tr>
-        </table>
-        <hr style={{border: "1px dashed white", margin: "5px"}}/>
-        {/* 
-        
-        <p style={pStyle}><b>{props.name}</b></p>
-        <p style={pStyle}>Vonatok száma: {props.remainingTrains}</p>
-        */}
-        
-    </div> 
+
+        <div>
+            <Portrait style={{margin: "0px"}} number={props.playerData.picture} size="40"/>
+            <table style={{color: "white", fontSize:"14px", margin: "auto", textAlign:"left"}}>
+                <tr>
+                    <td style={{fontWeight:"bold"}}>{props.playerData.name}</td>
+                    <td>Pont: {props.playerData.points}</td>
+                </tr>
+                <tr>
+                    <td>Vonatok: {props.playerData.trains}</td>
+                    <td>Kártyák: {props.playerData.cards}</td>
+                </tr>
+                <tr>
+                    <td>Célok: {props.playerData.goals}</td>
+                    <td>Kör: {props.playerData.round}</td>
+                </tr>
+            </table>
+            <hr style={{border: "1px dashed white", margin: "5px"}}/>
+            
+        </div> 
     );
 }
  

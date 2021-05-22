@@ -15,7 +15,6 @@ const trainDeckIn = {
 }
 
 const Game = (props) => {
-    const [gameState, setGameState] = useState("NEW_DESTINATIONS");
 
     return ( 
         <Container className="gameBackground" fluid>
@@ -32,12 +31,12 @@ const Game = (props) => {
                 <Col>
                     <Card type="ticketBack"/>
                     <Card type="trainBack" onClick={() => props.drawCard()}/>
-                    <CardHolder number="5" type="deck" selectedStyle="selectedCardStyleLeft" hand="false"/>
+                    <CardHolder number="5" type="deck" hand="false"/>
                 </Col>
             </Row>
             <Row style={{paddingTop: "20px"}}>
                 <Col sm={4}>
-                    <CardHolder number="3" type="ticket" hand="false"/>
+                    <CardHolder number="3" type="tickets" hand="false"/>
                 </Col>
                 <Col sm={8} style={{alignItems:"center"}}>
                     <CardHolder number="5" type="hand" selectedStyle="selectedCardStyleUp"/>
@@ -49,12 +48,12 @@ const Game = (props) => {
 }
 
 function mapState(state) {
-    const { cards } = state.game;
-    return { cards };
+    const { gameState } = state.game;
+    return { gameState };
 }
 
 const actionCreator = {
-    drawCard: gameActions.draw
+    changeGameState: gameActions.changeGameState
 };
  
 export default connect(mapState, actionCreator)(Game);

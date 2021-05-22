@@ -1,18 +1,20 @@
 import { useContext } from "react";
 import Avatar from "./Avatar";
 import { LobbyContext } from "./LobbyContext";
+import { useSelector } from "react-redux";
 
 const AvatarContainer = () => {
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
+    const data = useSelector(state => state.game.players);
 
     const avatars = [];
     avatars.push(
-        <Avatar key="1" portrait={lobbyValue?.picture || 1 } name={lobbyValue?.name || "Player 1"} remainingTrains="45"/>
+        <Avatar key="1" playerData={data[0]}/>
     );
 
-    for(let i = 1; i <= (lobbyValue?.numberOfPlayers || 2) - 1; i++) {
+    for(let i = 1; i <= 1; i++) {
         avatars.push(
-            <Avatar key={i+1} portrait={i} name={"Player " + i} remainingTrains="45"/>
+            <Avatar key={i+1} playerData={data[i]}/>
         );
     }
 
