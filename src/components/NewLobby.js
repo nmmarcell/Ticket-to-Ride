@@ -24,7 +24,7 @@ const NewLobby = () => {
         setPlayerName(e.target.value);
     });
 
-    let isLinkDisabled = (playerName == "" || playerNumber <= 0 || playerNumber >= 6);
+    let isLinkDisabled = (playerName == "" || playerNumber <= 1 || playerNumber >= 6);
 
     useEffect(() => {
         setPortraitNumber(Math.floor(Math.random() * 5));
@@ -47,7 +47,7 @@ const NewLobby = () => {
                 <Container>
                     <Row className="preLobbyRow">
                         <Col>
-                            <CustomInput inputName="numberOfPlayers" text="Hány játékos legyen? (1-5)" inputType="number"
+                            <CustomInput inputName="numberOfPlayers" text="Hány játékos legyen? (2-5)" inputType="number"
                                 value={playerNumber} onChange={handlePlayerNumberChange} />
                             <br/>
                             <CustomInput inputName="newLobbyPlayerName" text="Név: " inputType="text" 

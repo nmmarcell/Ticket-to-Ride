@@ -5,7 +5,7 @@ const Portrait = (props) => {
         borderRadius: "50%",
         height: props.size ? props.size + "px" : "100px",
         width: props.size ? props.size + "px" : "100px",
-        border: "4px solid white",
+        border: props.active ? "4px solid red" : "4px solid white",
         margin: "1px"
     }
 

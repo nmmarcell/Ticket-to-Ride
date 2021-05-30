@@ -14,7 +14,10 @@ const Lobby = (props) => {
 
     function addPlayers() { 
         props.addNewPlayer(lobbyValue.name, lobbyValue.picture);
-        props.addNewPlayer("Player 2", 2);
+        for(let i = 1; i < (lobbyValue?.numberOfPlayers || 0); i++) {
+            let name = "Player " + i;
+            props.addNewPlayer(name, i);
+        }
     }
 
     const avatars = [];

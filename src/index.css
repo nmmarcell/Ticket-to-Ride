@@ -114,6 +114,7 @@ hr {
   transition: all 1s;
 }
 
+/*
 .cardStyle:hover {
   z-index: 0;
   height: 90px;
@@ -122,6 +123,7 @@ hr {
   transition: all 1s;
   bottom: 10;
 }
+*/
 
 .selectedCardStyleLeft {
   height: 80px;
@@ -143,13 +145,13 @@ hr {
 }
 
 .ticketStyle {
+  display: inline-block;
+  text-align: center;
   background-color: rgb(168, 131, 20);
   height: 80px;
   width: 140px;
-  float: left;
   color: white;
   font-weight: bold;
-  border: 2px solid white;
   border-radius: 12px;
   margin: 5px;
 }

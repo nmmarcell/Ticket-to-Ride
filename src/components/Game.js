@@ -2,58 +2,88 @@ import { Col, Container, Row } from "react-bootstrap";
 import "../index.css";
 import Map from "./Map";
 import Card from "./Card";
-import Avatar from "./Avatar";
 import CardHolder from "./CardHolder";
 import AvatarContainer from "./AvatarContainer";
 import History from "./History";
-import { useState } from "react";
 import { connect } from "react-redux";
 import gameActions from "../store/game/action";
+import { useEffect, useState } from "react";
+import DestinationModal from "./DestinationModal";
 
 const trainDeckIn = {
     marginTop: "-5px"
 }
 
 const Game = (props) => {
+    useEffect(() => {
+        props.initializeStore();
+        props.changeGameState("NEW_ROUND");
+        setModalShow(true);
+    }, []);
 
-    return ( 
-        <Container className="gameBackground" fluid>
-            <Row>
-                <Col>
-                    <History/>
-                    <AvatarContainer/>
-                </Col>
-                    
-                <Col className="tableStyle">
-                    <Map/>
-                </Col>
+    useEffect(() => {
+        if(props.gameState === "NEW_ROUND" && props.round === 1) {
+            setModalShow(true); 
+            props.changeGameState("NEW_DEST");
+        }
+    }, [props.currentPlayer]);
 
-                <Col>
-                    <Card type="ticketBack"/>
-                    <Card type="trainBack" onClick={() => props.drawCard()}/>
-                    <CardHolder number="5" type="deck" hand="false"/>
-                </Col>
-            </Row>
-            <Row style={{paddingTop: "20px"}}>
-                <Col sm={4}>
-                    <CardHolder number="3" type="tickets" hand="false"/>
-                </Col>
-                <Col sm={8} style={{alignItems:"center"}}>
-                    <CardHolder number="5" type="hand" selectedStyle="selectedCardStyleUp"/>
-                </Col>
+    useEffect(() => {
+        if(props.gameState === "DRAWN_CARD2") props.nextPlayer(props.currentPlayer + 1);
+    }, [props.gameState]);
 
-            </Row>
-        </Container>
+    const [modalShow, setModalShow] = useState(false);
+
+    const handleDestDrawClick = () => {
+        if(props.gameState === "NEW_ROUND") {
+            setModalShow(true); 
+            props.changeGameState("NEW_DEST");
+        }
+    }
+
+    return (
+        <>
+            <Container className="gameBackground" fluid>
+                <Row>
+                    <Col>
+                        <History/>
+                        <AvatarContainer/>
+                    </Col>
+                        
+                    <Col className="tableStyle">
+                        <Map/>
+                    </Col>
+
+                    <Col>
+                        <Card type="ticketBack" onClick={handleDestDrawClick}/>
+                        <Card type="trainBack"/>
+                        <CardHolder number="5" type="deck"/>
+                    </Col>
+                </Row>
+                <Row style={{paddingTop: "20px"}}>
+                    <Col sm={4}>
+                        <CardHolder number="3" type="tickets"/>
+                    </Col>
+                    <Col sm={8} style={{alignItems:"center"}}>
+                        <CardHolder number="5" type="hand" selectedStyle="selectedCardStyleUp"/>
+                    </Col>
+
+                </Row>
+            </Container>
+            <DestinationModal show={modalShow} onHide={() => setModalShow(false)} size="lg" centered/>
+        </>
      );
 }
 
 function mapState(state) {
-    const { gameState } = state.game;
-    return { gameState };
+    const { gameState, round, currentPlayer } = state.game;
+    return { gameState, round, currentPlayer };
 }
 
 const actionCreator = {
-    changeGameState: gameActions.changeGameState
+    changeGameState: gameActions.changeGameState,
+    initializeStore: gameActions.initializeStore,
+    nextPlayer: gameActions.nextPlayer
 };
  
 export default connect(mapState, actionCreator)(Game);

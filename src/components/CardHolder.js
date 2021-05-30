@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { connect, useSelector } from "react-redux";
 import Card from "./Card";
 
 function decideColor(color) {
@@ -36,35 +37,40 @@ function decideColor(color) {
 }
 
 const CardHolder = (props) => {
-    let hand = useSelector(state => state.game.cards);
+    const [data, setData] = useState([]);
+    
+    const hand = useSelector(state => state.game.currentCards);
+    const dest = useSelector(state => state.game.currentDestinations);
     let deck = useSelector(state => state.game.deck);
-    let tickets = useSelector(state => state.game.destinations);
 
-    let cards = [];
-    let data;
-
-    if(props.type == "hand") {
-        data = hand;
-    }
-    else if (props.type == "deck") {
-        data = deck;
-    }
-    else if (props.type == "tickets") {
-        data = tickets; 
-    }
-
-    for(let i = 0; i < (props.number > data.length ? data.length : props.number); i++) {
-        let number = decideColor(data[i].color);
-        cards.push(
-            <Card key={i} type={data[i].type} number={number} selectedStyle={props.selectedStyle} color={data[i].color} place={props.type}/>
-        );
-    }
+    useEffect(() => {
+        if(props.type == "hand") {
+            setData(hand);
+        }
+        else if (props.type == "deck") {
+            setData(deck);
+        }
+        else if (props.type == "tickets") {
+            setData(dest);
+        }
+    }, [hand, dest, deck]);
     
     return (
         <div >
-            {cards}
+            {
+                data.slice(0, props.number).map(elem => {
+                    if(props.type === "tickets") {
+                        return(<Card type={"ticket"} selectedStyle={"ticketStyle"} place={props.type} from={elem.fromCity} to={elem.toCity}/>); 
+                    }
+                    else {
+                        const number = decideColor(elem.color);
+                        return(<Card type={elem.type} number={number} selectedStyle={props.selectedStyle} color={elem.color} place={props.type} />);
+                    }
+                    
+                })
+            }
         </div>      
     );
 }
- 
+
 export default CardHolder;

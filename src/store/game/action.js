@@ -8,8 +8,8 @@ const changeGameState = (state) => {
     return dispatch => dispatch({type: types.CHAGE_GAMESTATE, state: state});
 }
 
-const chooseDestination = (dest) => {
-    return dispatch => dispatch({type: types.CHOOSE_DESTINATION, destination: dest});
+const chooseDestination = (id) => {
+    return dispatch => dispatch({type: types.CHOOSE_DESTINATION, destinationID: id});
 }
 
 const addPlayer = (name, picture) => {
@@ -17,11 +17,26 @@ const addPlayer = (name, picture) => {
     return dispatch => dispatch({type: types.ADD_PLAYER, data});
 }
 
+const nextPlayer = (nextID) => {
+    return dispatch => dispatch({type: types.NEXT_PLAYER, next: nextID}); 
+}
+
+const initializeStore = () => {
+    return dispatch => dispatch({type: types.INITIALIZE_STORE}); 
+}
+
+const setHoverObject = (cities) => {
+    return dispatch => dispatch({type: types.SET_HOVEROBJECT, cities: cities}); 
+}
+
 const actions = {
     draw,
     changeGameState,
     chooseDestination,
-    addPlayer
+    addPlayer,
+    nextPlayer,
+    initializeStore,
+    setHoverObject
 };
 
 export default actions;
