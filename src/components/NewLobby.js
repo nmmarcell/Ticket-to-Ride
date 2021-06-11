@@ -5,12 +5,16 @@ import Portrait from './Portrait';
 import "../index.css";
 import { Col, Container, Row } from 'react-bootstrap';
 import { LobbyContext } from './LobbyContext';
+import socket from "../socket.js";
+import gameActions from "../store/game/action";
+import serverActions from "../store/connection/action";
+import { connect } from 'react-redux';
 
 let fancyFont = {
     fontFamily: "t2rtitle"
 }
 
-const NewLobby = () => {
+const NewLobby = (props) => {
     const [playerNumber, setPlayerNumber] = useState(0);
     const [playerName, setPlayerName] = useState("");
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
@@ -37,6 +41,9 @@ const NewLobby = () => {
                 numberOfPlayers: playerNumber,
                 name: playerName
             });
+
+            props.addPlayer(playerName, portraitNumber);
+            props.createRoom(playerNumber);
         }
     };
 
@@ -67,5 +74,15 @@ const NewLobby = () => {
     );
 }
 
-export default NewLobby;
+function mapState(state) {
+    const { } = state.connection;
+    return { };
+}
+
+const actionCreator = {
+    createRoom: serverActions.createRoom,
+    addPlayer: gameActions.addPlayer
+};
+ 
+export default connect(mapState, actionCreator)(NewLobby);
 

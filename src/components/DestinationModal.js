@@ -23,26 +23,35 @@ function DestinationModal(props) {
 
     const handleConfirmClick = () => {
         props.onHide();
-        console.log(dests);
         Object.values(dests).map((e, i) => {
             if(selected[i]) {
                 props.chooseDestination(e.id);
             }
         });
         setSelected([false, false, false]);
-        if(props.round === 1) return;
+        setCont(false);
+        if(props.round === 1) {
+            props.changeGameState("NEW_ROUND");
+            return;
+        } 
         props.nextPlayer(currentPlayer + 1);  
     }
 
     useEffect(() => {
         let goals = [];
+        let indices = [];
+        let n;
         for(let i = 0; i < 3; i++) {
-            const n = Math.floor(Math.random() * (Object.keys(destinations).length)) + 1;
-            console.log(n);
-            goals.push(Object.values(destinations).filter(e => e.id == n)[0]);
+            do {
+                n = Math.floor(Math.random() * (Object.keys(destinations).length)) + 1;
+                console.log(destinations.reduce((acc, elem) => elem.id == n ? acc + 1 : acc, 0));
+            } while (indices.includes(n) || destinations.reduce((acc, elem) => elem.id == n ? acc + 1 : acc, 0) == 0);
+            indices.push(n);
+            goals.push(destinations.filter(e => e.id == n)[0]);
         }
         setDests(goals);
-    }, [currentPlayer]);
+        indices = [];
+    }, [destinations]);
 
     return (
       <Modal {...props} aria-labelledby="contained-modal-title-vcenter" backdrop="static" keyboard={false}>
@@ -56,6 +65,7 @@ function DestinationModal(props) {
             <Row>
                 {
                     Object.values(dests).map((e, i) => {
+                        console.log(e);
                         return(
                             <Col md={4} style={{textAlign: "center"}}>
                                 <Card index={i} type="ticket" from={e.fromCity} to={e.toCity} id={e.id} onClick={handleDestSelect} drawing={true}/>

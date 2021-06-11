@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import LinkButton from "./LinkButton";
 import "../index.css";
 import { Col, Container, Row } from "react-bootstrap";
@@ -6,46 +6,40 @@ import Portrait from "./Portrait";
 import { LobbyContext } from "./LobbyContext";
 import { connect } from "react-redux";
 import gameActions from "../store/game/action";
+import serverActions from "../store/connection/action";
 
 const Lobby = (props) => {
-    let random = Math.floor(Math.random() * 900000) + 100000;
-    const [lobbyNumber, setLobbyNumber] = useState(random);
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
 
-    function addPlayers() { 
-        props.addNewPlayer(lobbyValue.name, lobbyValue.picture);
+    useEffect(() => {
+        
+    }, []);
+
+    function addPlayersToState() { 
         for(let i = 1; i < (lobbyValue?.numberOfPlayers || 0); i++) {
             let name = "Player " + i;
-            props.addNewPlayer(name, i);
+            props.addPlayer(name, i);
         }
-    }
-
-    const avatars = [];
-    avatars.push(
-        <Col>
-            <Portrait size="100" number={lobbyValue?.picture || 0} />
-            <p><i>{lobbyValue?.name || ""}</i></p>
-        </Col>
-    );
-
-    for(let i = 1; i <= (lobbyValue?.numberOfPlayers || 2) - 1; i++) {
-        avatars.push(
-            <Col>
-                <Portrait size="100" number="5"/>
-                <p><i>Player {i}</i></p>
-            </Col>
-        );
     }
 
     return ( 
             <div className="lobbyStyle">
                 <Container className="lobbyDivStyle">
-                    <h2>A váró kódja: {lobbyNumber}</h2>
+                    <h2>A váró kódja: {props.roomID}</h2>
                     <Row style={{marginTop: "40px"}}>
-                        {avatars}
+                        {
+                            props.players.map(player => {
+                                return (
+                                    <Col>
+                                        <Portrait size="100" number={player.picture} />
+                                        <p><i>{player.name}</i></p>
+                                    </Col>
+                                );
+                            })
+                        }
                     </Row>
                     <LinkButton whereto="/" txt="Vissza a menübe" />
-                    <LinkButton whereto="/game" txt="Indítás" onClick={addPlayers}/>
+                    <LinkButton whereto="/game" txt="Indítás" onClick={addPlayersToState}/>
                 </Container>
             </div>
      );
@@ -53,11 +47,12 @@ const Lobby = (props) => {
 
 function mapState(state) {
     const { players } = state.game;
-    return { players };
+    const { roomID } = state.connection;
+    return { players, roomID };
 }
 
 const actionCreator = {
-    addNewPlayer: gameActions.addPlayer
+    addPlayer: gameActions.addPlayer
 };
  
 export default connect(mapState, actionCreator)(Lobby);

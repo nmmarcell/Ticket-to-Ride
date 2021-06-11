@@ -56,6 +56,12 @@ const removeDest = (array, id) => {
     return result.concat(array.slice(i + 1));
 }
 
+const insertConn = (array, index, conn) => {
+    let copy = array;
+    copy[index].builtConnections = [...array[index].builtConnections, conn];
+    return copy;
+}
+
 /*
 const pickLongGoal = () => {
     const n = Math.floor(Math.random() * (Object.keys(longGoals).length)) + 1;
@@ -132,6 +138,11 @@ export function game(state = initialState, action) {
             return {
                 ...state,
                 hoverObject: action.cities
+            };
+        case types.BUILD_CONNECTION:
+            return {
+                ...state,
+                players: insertConn(state.players, state.currentPlayer, action.connection)
             };
         default:
             return state;

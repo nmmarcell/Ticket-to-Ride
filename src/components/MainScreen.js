@@ -1,6 +1,8 @@
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import LinkButton from './LinkButton';
 import "../index.css";
+import { useEffect } from 'react';
+import socket from "../socket.js";
 
 const buttonGroupStyle = {
     position: 'absolute',
@@ -12,6 +14,11 @@ const buttonGroupStyle = {
 }
 
 const MainScreen = () => {
+    useEffect(() => {
+        socket.connect();
+        if(socket.connected) console.log(socket);
+    }, []);
+
     return(
         <div className="mainStyle">
             <ButtonGroup style={buttonGroupStyle} vertical>

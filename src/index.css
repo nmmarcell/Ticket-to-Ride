@@ -195,3 +195,31 @@ hr {
   border-radius: 20px;
   width: 100%;
 }
+
+.drawAnimation {
+  animation-name: draw;
+  animation-duration: 1s;
+}
+
+@keyframes draw {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+
+.drawDestAnimation {
+  animation-name: drawDest;
+  animation-duration: 2s;
+}
+
+@keyframes drawDest {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

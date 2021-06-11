@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import gameActions from "../store/game/action";
 import { useEffect, useState } from "react";
 import DestinationModal from "./DestinationModal";
+import socket from "../socket";
 
 const trainDeckIn = {
     marginTop: "-5px"
@@ -17,7 +18,6 @@ const trainDeckIn = {
 const Game = (props) => {
     useEffect(() => {
         props.initializeStore();
-        props.changeGameState("NEW_ROUND");
         setModalShow(true);
     }, []);
 
@@ -36,10 +36,15 @@ const Game = (props) => {
 
     const handleDestDrawClick = () => {
         if(props.gameState === "NEW_ROUND") {
-            setModalShow(true); 
-            props.changeGameState("NEW_DEST");
+            if(props.round > 1) {
+                setModalShow(true); 
+                props.changeGameState("NEW_DEST");
+            }
+            else alert("Ebben a körben már húztál célkártyát!");
         }
     }
+
+
 
     return (
         <>
@@ -67,7 +72,6 @@ const Game = (props) => {
                     <Col sm={8} style={{alignItems:"center"}}>
                         <CardHolder number="5" type="hand" selectedStyle="selectedCardStyleUp"/>
                     </Col>
-
                 </Row>
             </Container>
             <DestinationModal show={modalShow} onHide={() => setModalShow(false)} size="lg" centered/>

@@ -29,6 +29,10 @@ const setHoverObject = (cities) => {
     return dispatch => dispatch({type: types.SET_HOVEROBJECT, cities: cities}); 
 }
 
+const buildConnection = (connection) => {
+    return dispatch => dispatch({type: types.BUILD_CONNECTION, connection: connection}); 
+}
+
 const actions = {
     draw,
     changeGameState,
@@ -36,7 +40,8 @@ const actions = {
     addPlayer,
     nextPlayer,
     initializeStore,
-    setHoverObject
+    setHoverObject,
+    buildConnection
 };
 
 export default actions;

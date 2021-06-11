@@ -6,7 +6,11 @@ import gameActions from "../store/game/action";
 
 const Card = (props) => {
     const [clicked, setClicked] = useState(false);
-    const style = clicked && props.type == "hand" ? props.selectedStyle : "cardStyle";
+    let style = "cardStyle";
+    if(props.place === "hand") style = "cardStyle drawAnimation";
+    if(props.type === "ticket") style = "ticketStyle";
+    if(props.place === "tickets") style = "ticketStyle drawDestAnimation";
+
 
     const handleCardClick = () => {
         //setClicked(!clicked);
@@ -51,6 +55,7 @@ const Card = (props) => {
         let image;
         switch(props.type) {
             case "train":
+                const classes = `style drawAnimation`;
                 image = images[1][props.number];
                 return <img src={image} alt="train card" className={style} onClick={handleCardClick}/>
             case "ticketBack":
@@ -61,7 +66,7 @@ const Card = (props) => {
                 return <img src={image} alt="train card upside down" className={style} onClick={handleDeckClick}/>
             case "ticket":
                 return <div 
-                    className="ticketStyle" 
+                    className={style} 
                     style={{border: clicked ? "2px solid red" : "2px solid white"}} 
                     onClick={handleDestClick}
                     onMouseEnter={handleHoverEnter}
@@ -78,8 +83,8 @@ const Card = (props) => {
 }
 
 function mapState(state) {
-    const { deck, gameState, hoverObject } = state.game;
-    return { deck, gameState, hoverObject };
+    const { deck, gameState, hoverObject, round } = state.game;
+    return { deck, gameState, hoverObject, round };
 }
 
 const actionCreator = {

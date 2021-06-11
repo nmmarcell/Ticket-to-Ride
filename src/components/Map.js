@@ -4,11 +4,12 @@ import {ticketToRideData} from "../assets/ticket-to-ride-data";
 import City from "./City";
 import Connection from "./Connection";
 import gameActions from "../store/game/action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 const Map = (props) => {
     const [activeConnections, setActiveConnections] = useState([]);
+    const [selectedCities, setSelectedCities] = useState([null, null]);
 
     const citySelect = (connections) => {
         setActiveConnections(connections);
@@ -19,6 +20,16 @@ const Map = (props) => {
         setActiveConnections([]);
         props.changeGameState("NEW_ROUND");
     }
+
+    const buildable = (connection) => {
+        const connColor = connection.color;
+        const trains = props.currentCards.reduce((acc, elem) => elem.color === connColor ? acc + 1 : acc, 0);
+        return trains >= connection.elements.length;
+    }
+
+    useEffect(() => {
+
+    })
 
     return ( 
         <>
@@ -33,7 +44,9 @@ const Map = (props) => {
             {
                 props.players.map(player => { //már megépített connectionök felrajzolása a térképre
                     player.builtConnections.map(connection => {
-
+                        return (
+                            <Connection conn={connection} built={true}/>
+                        );
                     });
                 })
             }
@@ -49,8 +62,8 @@ const Map = (props) => {
 }
 
 function mapState(state) {
-    const { players } = state.game;
-    return { players };
+    const { players, currentCards } = state.game;
+    return { players, currentCards };
 }
 
 const actionCreator = {

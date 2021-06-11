@@ -1,6 +1,14 @@
+import {ticketToRideData} from "../assets/ticket-to-ride-data";
+
 const Connection = (props) => {
-    /*
-    const getDegree = (connection) => {
+    const from = props.conn.fromCity;
+    const to = props.conn.toCity;
+    const cities = [...Object.values(ticketToRideData.cities)];
+    const fromCity = cities.filter(elem => elem.city === from)[0];
+    const toCity = cities.filter(elem => elem.city === to)[0];
+    const group = props.conn.elements;
+
+    const getDegree = (connection, i, group) => {
         let prev = {};
         let next = {};
         if (group.length === 1) {
@@ -26,18 +34,19 @@ const Connection = (props) => {
 
         return (Math.acos(numerator / divider) + Math.atan2(next.y - prev.y, next.x - prev.x)) * 180 / Math.PI + 90;
     }
-    */
+    
     return ( 
-        props.conn.elements.map(elem => {
+        props.conn.elements.map((elem, i) => {
             return <div style={ {
                 position: "absolute", 
-                left: (elem.x - 0.5) + "%",
-                top: (elem.y - 2) + "%",
+                left: (elem.x - 1.5) + "%",
+                top: (elem.y - 0.5) + "%",
                 height: "1.5%",  
-                width: "4%",
+                width: "3%",
                 display: "inline",
                 backgroundColor: props.conn.color,
-                transform: "rotate(" + getDegree(connection) + "deg)"
+                transform: "rotate(" + (getDegree({x: elem.x, y: elem.y}, i, group) + 80) + "deg)",
+                opacity: props.built ? "0%" : "50%"
             } }>
             </div>
         })
