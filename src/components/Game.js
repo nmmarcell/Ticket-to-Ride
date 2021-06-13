@@ -19,6 +19,11 @@ const Game = (props) => {
     useEffect(() => {
         props.initializeStore();
         setModalShow(true);
+
+        socket.on('state-changed', (data) => {
+            props.updateState(data.state);
+        });
+
     }, []);
 
     useEffect(() => {
@@ -43,8 +48,6 @@ const Game = (props) => {
             else alert("Ebben a körben már húztál célkártyát!");
         }
     }
-
-
 
     return (
         <>
@@ -87,7 +90,8 @@ function mapState(state) {
 const actionCreator = {
     changeGameState: gameActions.changeGameState,
     initializeStore: gameActions.initializeStore,
-    nextPlayer: gameActions.nextPlayer
+    nextPlayer: gameActions.nextPlayer,
+    updateState: gameActions.updateState
 };
  
 export default connect(mapState, actionCreator)(Game);

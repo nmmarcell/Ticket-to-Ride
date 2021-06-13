@@ -144,6 +144,11 @@ export function game(state = initialState, action) {
                 ...state,
                 players: insertConn(state.players, state.currentPlayer, action.connection)
             };
+        case types.UPDATE_STATE:
+            return {
+                ...state,
+                ...action.state
+            }
         default:
             return state;
     }

@@ -5,8 +5,12 @@ import Portrait from './Portrait';
 import { useState, useContext, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { LobbyContext } from './LobbyContext';
+import serverActions from "../store/connection/action";
+import gameActions from "../store/game/action";
+import { connect } from 'react-redux';
+import { store } from '../store';
 
-const JoinLobby = () => {
+const JoinLobby = (props) => {
     const [lobbyNumber, setLobbyNumber] = useState(0);
     const [playerName, setPlayerName] = useState("");
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
@@ -32,6 +36,9 @@ const JoinLobby = () => {
                 picture: portraitNumber,
                 name: playerName
             });
+
+            props.addPlayer(playerName, portraitNumber);
+            props.joinRoom(lobbyNumber, store.getState().game);
         }
     };
 
@@ -55,10 +62,20 @@ const JoinLobby = () => {
                 </Container>
                 <LinkButton whereto="/" txt="Vissza" size="300px"/>
                 <LinkButton whereto="lobby" txt="Belépés" size="300px" isDisabled={isLinkDisabled}
-                continueFunction={handleLobby}/>
+                onClick={handleLobby}/>
             </div>
         </div>
     );
 }
  
-export default JoinLobby;
+function mapState(state) {
+    const {game} = state;
+    return {game};
+}
+
+const actionCreator = {
+    addPlayer: gameActions.addPlayer,
+    joinRoom: serverActions.joinRoom
+};
+ 
+export default connect(mapState, actionCreator)(JoinLobby);

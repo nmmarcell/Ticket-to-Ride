@@ -44,7 +44,6 @@ function DestinationModal(props) {
         for(let i = 0; i < 3; i++) {
             do {
                 n = Math.floor(Math.random() * (Object.keys(destinations).length)) + 1;
-                console.log(destinations.reduce((acc, elem) => elem.id == n ? acc + 1 : acc, 0));
             } while (indices.includes(n) || destinations.reduce((acc, elem) => elem.id == n ? acc + 1 : acc, 0) == 0);
             indices.push(n);
             goals.push(destinations.filter(e => e.id == n)[0]);
@@ -65,7 +64,6 @@ function DestinationModal(props) {
             <Row>
                 {
                     Object.values(dests).map((e, i) => {
-                        console.log(e);
                         return(
                             <Col md={4} style={{textAlign: "center"}}>
                                 <Card index={i} type="ticket" from={e.fromCity} to={e.toCity} id={e.id} onClick={handleDestSelect} drawing={true}/>

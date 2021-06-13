@@ -16,7 +16,6 @@ const buttonGroupStyle = {
 const MainScreen = () => {
     useEffect(() => {
         socket.connect();
-        if(socket.connected) console.log(socket);
     }, []);
 
     return(

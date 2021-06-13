@@ -8,7 +8,8 @@ import { LobbyContext } from './LobbyContext';
 import socket from "../socket.js";
 import gameActions from "../store/game/action";
 import serverActions from "../store/connection/action";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { store } from '../store';
 
 let fancyFont = {
     fontFamily: "t2rtitle"
@@ -42,8 +43,11 @@ const NewLobby = (props) => {
                 name: playerName
             });
 
+            
             props.addPlayer(playerName, portraitNumber);
-            props.createRoom(playerNumber);
+
+            //itt a game-ben még nincs benne a player?
+            props.createRoom(playerNumber, store.getState().game);
         }
     };
 
@@ -75,12 +79,14 @@ const NewLobby = (props) => {
 }
 
 function mapState(state) {
-    const { } = state.connection;
-    return { };
+    const { roomID } = state.connection;
+    const { game } = state;
+    return { roomID, game };
 }
 
 const actionCreator = {
     createRoom: serverActions.createRoom,
+    syncState: serverActions.syncState,
     addPlayer: gameActions.addPlayer
 };
  

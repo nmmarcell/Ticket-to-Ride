@@ -7,20 +7,27 @@ import { LobbyContext } from "./LobbyContext";
 import { connect } from "react-redux";
 import gameActions from "../store/game/action";
 import serverActions from "../store/connection/action";
+import socket from "../socket";
+import { useHistory } from "react-router";
 
 const Lobby = (props) => {
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
+    let history = useHistory();
 
     useEffect(() => {
-        
-    }, []);
+        socket.on('player-joined', (data) =>{
+            socket.emit('get-state', data.roomId, (resp) => {
+                if(resp.status === 'ok') {
+                    props.updateState(JSON.parse(resp.state));
+                }  
+                else console.log(resp.message);
+            });
+        });
 
-    function addPlayersToState() { 
-        for(let i = 1; i < (lobbyValue?.numberOfPlayers || 0); i++) {
-            let name = "Player " + i;
-            props.addPlayer(name, i);
-        }
-    }
+        socket.on('room-is-full', (data) => {
+            history.push('/game');
+        });
+    }, []);
 
     return ( 
             <div className="lobbyStyle">
@@ -39,7 +46,7 @@ const Lobby = (props) => {
                         }
                     </Row>
                     <LinkButton whereto="/" txt="Vissza a menübe" />
-                    <LinkButton whereto="/game" txt="Indítás" onClick={addPlayersToState}/>
+                    <LinkButton whereto="/game" txt="Indítás"/>
                 </Container>
             </div>
      );
@@ -47,12 +54,16 @@ const Lobby = (props) => {
 
 function mapState(state) {
     const { players } = state.game;
+    const { game } = state;
     const { roomID } = state.connection;
-    return { players, roomID };
+    return { players, roomID, game };
 }
 
 const actionCreator = {
-    addPlayer: gameActions.addPlayer
+    addPlayer: gameActions.addPlayer,
+    updateState: gameActions.updateState,
+    syncState: serverActions.syncState,
+    getState: serverActions.getState
 };
  
 export default connect(mapState, actionCreator)(Lobby);

@@ -33,6 +33,11 @@ const buildConnection = (connection) => {
     return dispatch => dispatch({type: types.BUILD_CONNECTION, connection: connection}); 
 }
 
+const updateState = ( state ) => {
+    console.log('meghívódtam');
+    return dispatch => dispatch( {type: types.UPDATE_STATE, state: state} );
+}
+
 const actions = {
     draw,
     changeGameState,
@@ -41,7 +46,8 @@ const actions = {
     nextPlayer,
     initializeStore,
     setHoverObject,
-    buildConnection
+    buildConnection,
+    updateState
 };
 
 export default actions;
