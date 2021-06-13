@@ -3,7 +3,8 @@ import { types } from "./types";
 
 
 const initialState = {
-    roomID: ""
+    roomID: "",
+    ownName: ""
 };
 
 export function connection(state = initialState, action) {
@@ -19,7 +20,8 @@ export function connection(state = initialState, action) {
         case types.CREATE_ROOM: 
             return {
                 ...state,
-                roomID: action.roomID
+                roomID: action.roomID,
+                ownName: action.name
             };
         case types.JOIN_ROOM: 
             return {

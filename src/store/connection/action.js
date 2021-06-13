@@ -1,10 +1,10 @@
 import { types } from "./types";
-//import { types } from "../game/types";
+import { types as gameTypes } from "../game/types";
 import gameAction from "../game/action";
 import socket from "../../socket.js";
 
 const syncState = ( roomID, state ) => dispatch => {
-    socket.emit('sync-state', roomID, state, true, (syncResponse) => {
+    socket.emit('sync-state', roomID, state, false, (syncResponse) => {
         if(syncResponse.status === 'ok') {
             dispatch( {type: types.SYNC_STATE} );
         }
@@ -53,15 +53,9 @@ const joinRoom = ( roomID, gameState ) => dispatch => {
                     
                     const newState = {
                         ...serverState,
-                        players: [...gameState.players, ...serverState.players],                        
+                        players: [...serverState.players, ...gameState.players],                        
                     }
-
-                    console.log(newState);
-                    
-                    //saját state-be itt nem kerül be ami lejött
-                    gameAction.updateState(newState);
-
-                    //dispatch({type: gameTypes.UPDATE_STATE, state: JSON.parse(getResponse.state)});
+                    dispatch({type: gameTypes.UPDATE_STATE, state: newState});
 
                     socket.emit('sync-state', roomID, newState, false, (syncResponse) => {
                         if(syncResponse.status === 'ok') dispatch( {type: types.SYNC_STATE} );

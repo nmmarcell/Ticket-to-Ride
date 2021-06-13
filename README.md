@@ -75,8 +75,8 @@ Játékoldal: összegző táblázatban a célok listájában fölé víve az ege
 Játékoldal: összegző táblázatban a leghosszabb út (1pt)
 
 2 játékos esetén
-[] Az 1. játékos a főoldalon megadja a nevét, beállítja a játékosok számát 2-re és új játékszobát indít. Ekkor bekerül a várakozó 		szobába (itt jelenik meg a szoba kódja, amit el tud küldeni a játékon kívül a 2. játékosnak). (2pt)
-[] A 2. játékos a főoldalon beírja a kódot, és így csatlakozik egy meglévő szobához. Mivel a szoba így megtelt, a folyamat végén mindkét játékos a játékoldalra kerül. (3pt)
+[x] Az 1. játékos a főoldalon megadja a nevét, beállítja a játékosok számát 2-re és új játékszobát indít. Ekkor bekerül a várakozó 		szobába (itt jelenik meg a szoba kódja, amit el tud küldeni a játékon kívül a 2. játékosnak). (2pt)
+[x] A 2. játékos a főoldalon beírja a kódot, és így csatlakozik egy meglévő szobához. Mivel a szoba így megtelt, a folyamat végén mindkét játékos a játékoldalra kerül. (3pt)
 [] A főoldalon a szobához csatlakozásnál ha érvénytelen a kód, akkor nem tud továbblépni. (Érvénytelen kód: nem létező szobaazonosító, 	vagy olyan szoba, amelyben már megtelt, vagy lezárt játék van. A kód érvényességét a szerver ellenőrzi.) (2pt)
 [] A játékoldalon megjelenik a játéktábla. Mindkét játékos ugyanazokat az adatokat látja (térkép, játékosok, kirakott lapok, stb), kivéve azt, hogy mindegyik játékos a saját kezét látja. (3pt)
 [] Az aktív játékos lépéséről a 2. játékos is értesül (változnak a kirakott lapok, megjelenik egy épített út a térképen, módosul a játékos history) (3pt)
@@ -86,8 +86,8 @@ Játékoldal: összegző táblázatban a leghosszabb út (1pt)
 [] Játék végén egy gombra kattintva visszakerülnek a főoldalra. (2pt)
 
 3-5 játékos esetén
-[] A várakozó szobába kerülnek a játékosok, amíg össze nem gyűlik az elején beállított játékosszám. (2pt)
-[] A várakozó szobában feltüntetésre kerül a kapcsolódott játékosok neve. (+3pt)
+[x] A várakozó szobába kerülnek a játékosok, amíg össze nem gyűlik az elején beállított játékosszám. (2pt)
+[x] A várakozó szobában feltüntetésre kerül a kapcsolódott játékosok neve. (+3pt)
 [] A játékoldalon a játéktér állapota szinkronizálva van az összes játékossal. (2pt)
 [] Csak az aktív játékos léphet. (2pt)
 [] A nem aktív játékosok csak "nézelődhetnek" (kéz, célok, stb) (2pt)

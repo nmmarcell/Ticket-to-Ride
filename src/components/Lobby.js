@@ -16,12 +16,15 @@ const Lobby = (props) => {
 
     useEffect(() => {
         socket.on('player-joined', (data) =>{
-            socket.emit('get-state', data.roomId, (resp) => {
-                if(resp.status === 'ok') {
-                    props.updateState(JSON.parse(resp.state));
-                }  
-                else console.log(resp.message);
-            });
+            setTimeout(() => {
+                socket.emit('get-state', data.roomId, (resp) => {
+                    if(resp.status === 'ok') {
+                        const serverState = JSON.parse(resp.state);
+                        props.updateState(serverState);
+                    }  
+                    else console.log(resp.message);
+                });
+            }, 500);
         });
 
         socket.on('room-is-full', (data) => {

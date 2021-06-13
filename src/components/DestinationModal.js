@@ -56,7 +56,7 @@ function DestinationModal(props) {
       <Modal {...props} aria-labelledby="contained-modal-title-vcenter" backdrop="static" keyboard={false}>
         <Modal.Header style={{ backgroundColor: "lightgrey"}}>
           <Modal.Title id="contained-modal-title-vcenter">
-              {props.players[props.currentPlayer].name}, válassz célokat! (legalább 1-et, legfeljebb 3-at)
+              Válassz célokat! (legalább 1-et, legfeljebb 3-at)
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="show-grid" style={{ backgroundColor: "lightgrey"}}>

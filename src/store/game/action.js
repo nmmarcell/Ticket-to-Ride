@@ -34,7 +34,6 @@ const buildConnection = (connection) => {
 }
 
 const updateState = ( state ) => {
-    console.log('meghívódtam');
     return dispatch => dispatch( {type: types.UPDATE_STATE, state: state} );
 }
 

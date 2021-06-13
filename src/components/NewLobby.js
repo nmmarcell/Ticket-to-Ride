@@ -43,10 +43,7 @@ const NewLobby = (props) => {
                 name: playerName
             });
 
-            
             props.addPlayer(playerName, portraitNumber);
-
-            //itt a game-ben még nincs benne a player?
             props.createRoom(playerNumber, store.getState().game);
         }
     };
