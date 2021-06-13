@@ -17,12 +17,13 @@ const trainDeckIn = {
 
 const Game = (props) => {
     const isCurrentPlayer = () => {
-        return socket.id == props.players[props.currentPlayer].socketID;
+ /*        console.log(props.players);
+        console.log(props.currentPlayer);
+        console.log(props.players[props.currentPlayer]); */
+        return socket.id === props.players[props.currentPlayer].socketID;
     };
 
     useEffect(() => {
-        props.initializeStore();
-
         socket.on('state-changed', (data) => {
             props.updateState(data.state);
         });

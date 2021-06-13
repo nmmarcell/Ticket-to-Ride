@@ -28,6 +28,7 @@ const Lobby = (props) => {
         });
 
         socket.on('room-is-full', (data) => {
+            props.initializeStore();
             history.push('/game');
         });
     }, []);
@@ -66,7 +67,8 @@ const actionCreator = {
     addPlayer: gameActions.addPlayer,
     updateState: gameActions.updateState,
     syncState: serverActions.syncState,
-    getState: serverActions.getState
+    getState: serverActions.getState,
+    initializeStore: gameActions.initializeStore
 };
  
 export default connect(mapState, actionCreator)(Lobby);

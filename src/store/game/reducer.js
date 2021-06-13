@@ -100,9 +100,8 @@ export function game(state = initialState, action) {
                 ...state,
                 deck: removeCard(state.deck, action.color),
                 players: insertCard(state.players, state.currentPlayer, {color: action.color, type: "train"}),
-                currentCards: [...state.currentCards, {color: action.color, type: "train"}]
             };
-            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+            socket.emit('sync-state', state.roomID, {...newState}, false, (syncResponse) => {
                 if(syncResponse.status !== 'ok') {
                     console.log(syncResponse.message);
                 }
@@ -114,7 +113,7 @@ export function game(state = initialState, action) {
                 ...state,
                 gameState: action.state
             };
-            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+            socket.emit('sync-state', state.roomID, {...newState}, false, (syncResponse) => {
                 if(syncResponse.status !== 'ok') {
                     console.log(syncResponse.message);
                 }
@@ -126,9 +125,8 @@ export function game(state = initialState, action) {
                 ...state,
                 destinations: removeDest(state.destinations, action.destinationID),
                 players: insertDest(state.players, state.currentPlayer, state.destinations.filter(e => e.id === action.destinationID), false),
-                currentDestinations: [...state.currentDestinations, state.destinations.filter(e => e.id === action.destinationID)[0]]
             };
-            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+            socket.emit('sync-state', state.roomID, {...newState}, false, (syncResponse) => {
                 if(syncResponse.status !== 'ok') {
                     console.log(syncResponse.message);
                 }
@@ -152,10 +150,8 @@ export function game(state = initialState, action) {
                 round: newRound,
                 gameState: "NEW_ROUND",
                 currentPlayer: ID,
-                //currentCards: state.players[ID].cards,
-                //currentDestinations: state.players[ID].goals
             };
-            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+            socket.emit('sync-state', state.roomID, {...newState}, false, (syncResponse) => {
                 if(syncResponse.status !== 'ok') {
                     console.log(syncResponse.message);
                 }
@@ -167,7 +163,7 @@ export function game(state = initialState, action) {
                 ...state,
                 players: insertConn(state.players, state.currentPlayer, action.connection)
             };
-            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+            socket.emit('sync-state', state.roomID, {...newState}, false, (syncResponse) => {
                 if(syncResponse.status !== 'ok') {
                     console.log(syncResponse.message);
                 }
@@ -175,8 +171,7 @@ export function game(state = initialState, action) {
             return newState;
 
         case types.INITIALIZE_STORE:
-            const client = state.players.filter(e => e.socketID == socket.id);
-            console.log(client);
+            const client = state.players.filter(e => e.socketID === socket.id);
             return {
                 ...state,
                 currentCards: client[0].cards,
@@ -190,7 +185,8 @@ export function game(state = initialState, action) {
         case types.UPDATE_STATE:
             return {
                 ...state,
-                ...action.state
+                ...action.state,
+                roomID: state.roomID
             }
         case types.INITIALIZE_ROOMID: 
             return {

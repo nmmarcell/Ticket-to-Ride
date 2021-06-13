@@ -48,6 +48,7 @@ const joinRoom = ( roomID, gameState, history ) => dispatch => {
     socket.emit('join-room', roomID, ( joinResponse ) => {
         if(joinResponse.status === 'ok') {
             dispatch( {type: types.JOIN_ROOM, roomID: roomID} );
+            dispatch( {type: gameTypes.INITIALIZE_ROOMID, roomID: roomID} )
             socket.emit('get-state', roomID, (getResponse) => {
                 if(getResponse.status === 'ok') {
                     dispatch( {type: types.GET_STATE} );

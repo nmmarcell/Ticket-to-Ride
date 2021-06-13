@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
+import socket from "../socket";
 import Card from "./Card";
 
 function decideColor(color) {
@@ -45,13 +46,15 @@ const CardHolder = (props) => {
 
     useEffect(() => {
         if(props.type == "hand") {
-            setData(hand);
+            let arr = props.players.filter(e => e.socketID === socket.id);
+            if(arr.length > 0) setData(arr[0].cards)
         }
         else if (props.type == "deck") {
             setData(deck);
         }
         else if (props.type == "tickets") {
-            setData(dest);
+            let arr = props.players.filter(e => e.socketID === socket.id);
+            if(arr.length > 0) setData(arr[0].goals)
         }
     }, [hand, dest, deck]);
     
@@ -73,4 +76,11 @@ const CardHolder = (props) => {
     );
 }
 
-export default CardHolder;
+function mapState(state) {
+    const {players} = state.game;
+    return {players};
+}
+
+const actionCreator = {};
+ 
+export default connect(mapState, actionCreator)(CardHolder);
