@@ -29,7 +29,12 @@ const Lobby = (props) => {
 
         socket.on('room-is-full', (data) => {
             props.initializeStore();
-            history.push('/game');
+
+            //a klienseknek egy kis időre van szükségük a kezdeti state-ek szinkronizálásához
+            setTimeout(() => {
+                history.push('/game');
+            }, 1500);
+           //history.push('/game');
         });
     }, []);
 
@@ -50,7 +55,8 @@ const Lobby = (props) => {
                         }
                     </Row>
                     <LinkButton whereto="/" txt="Vissza a menübe" />
-                    <LinkButton whereto="/game" txt="Indítás"/>
+                    {//<LinkButton whereto="/game" txt="Várunk a többiekre"/>
+                    }
                 </Container>
             </div>
      );

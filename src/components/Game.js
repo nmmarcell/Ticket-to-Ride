@@ -17,9 +17,6 @@ const trainDeckIn = {
 
 const Game = (props) => {
     const isCurrentPlayer = () => {
- /*        console.log(props.players);
-        console.log(props.currentPlayer);
-        console.log(props.players[props.currentPlayer]); */
         return socket.id === props.players[props.currentPlayer].socketID;
     };
 

@@ -92,7 +92,7 @@ Játékoldal: összegző táblázatban a leghosszabb út (1pt)
 3-5 játékos esetén
 [x] A várakozó szobába kerülnek a játékosok, amíg össze nem gyűlik az elején beállított játékosszám. (2pt)
 [x] A várakozó szobában feltüntetésre kerül a kapcsolódott játékosok neve. (+3pt)
-[] A játékoldalon a játéktér állapota szinkronizálva van az összes játékossal. (2pt)
+[x] A játékoldalon a játéktér állapota szinkronizálva van az összes játékossal. (2pt)
 [x] Csak az aktív játékos léphet. (2pt)
 [x] A nem aktív játékosok csak "nézelődhetnek" (kéz, célok, stb) (2pt)
 [x] Az aktív játékos lépésének befejeztével ciklikusan a következő játékos jön. (2pt)
