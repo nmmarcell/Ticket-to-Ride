@@ -16,9 +16,12 @@ const trainDeckIn = {
 }
 
 const Game = (props) => {
+    const isCurrentPlayer = () => {
+        return socket.id == props.players[props.currentPlayer].socketID;
+    };
+
     useEffect(() => {
         props.initializeStore();
-        setModalShow(true);
 
         socket.on('state-changed', (data) => {
             props.updateState(data.state);
@@ -27,7 +30,7 @@ const Game = (props) => {
     }, []);
 
     useEffect(() => {
-        if(props.gameState === "NEW_ROUND" && props.round === 1) {
+        if(props.gameState === "NEW_ROUND" && props.round === 1 && isCurrentPlayer())  {
             setModalShow(true); 
             props.changeGameState("NEW_DEST");
         }
@@ -40,13 +43,16 @@ const Game = (props) => {
     const [modalShow, setModalShow] = useState(false);
 
     const handleDestDrawClick = () => {
-        if(props.gameState === "NEW_ROUND") {
-            if(props.round > 1) {
-                setModalShow(true); 
-                props.changeGameState("NEW_DEST");
+        if(isCurrentPlayer()) {
+            if(props.gameState === "NEW_ROUND") {
+                if(props.round > 1) {
+                    setModalShow(true); 
+                    props.changeGameState("NEW_DEST");
+                }
+                else alert("Ebben a körben már húztál célkártyát!");
             }
-            else alert("Ebben a körben már húztál célkártyát!");
         }
+        else alert("Most nem te vagy soron!");
     }
 
     return (
@@ -83,8 +89,8 @@ const Game = (props) => {
 }
 
 function mapState(state) {
-    const { gameState, round, currentPlayer } = state.game;
-    return { gameState, round, currentPlayer };
+    const { gameState, round, currentPlayer, players} = state.game;
+    return { gameState, round, currentPlayer, players };
 }
 
 const actionCreator = {

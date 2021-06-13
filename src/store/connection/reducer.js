@@ -26,7 +26,7 @@ export function connection(state = initialState, action) {
         case types.JOIN_ROOM: 
             return {
                 ...state,
-                roomID: action. roomID
+                roomID: action.roomID
             };
         default:
             return state;

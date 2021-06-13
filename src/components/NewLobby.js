@@ -43,7 +43,7 @@ const NewLobby = (props) => {
                 name: playerName
             });
 
-            props.addPlayer(playerName, portraitNumber);
+            props.addPlayer(playerName, portraitNumber, socket.id);
             props.createRoom(playerNumber, store.getState().game);
         }
     };

@@ -3,6 +3,7 @@ import images from "../imageImporter";
 import { useState } from "react";
 import { connect } from "react-redux";
 import gameActions from "../store/game/action";
+import socket from "../socket";
 
 const Card = (props) => {
     const [clicked, setClicked] = useState(false);
@@ -11,28 +12,33 @@ const Card = (props) => {
     if(props.type === "ticket") style = "ticketStyle";
     if(props.place === "tickets") style = "ticketStyle drawDestAnimation";
 
-
     const handleCardClick = () => {
         //setClicked(!clicked);
-        if(props.place === "deck") {
-            if(props.gameState === "NEW_ROUND") { 
-                props.drawCard(props.color);
-                if(props.color === "loco") props.changeGameState("DRAWN_CARD2"); //ha vonatot húzott a játékos, nem húzhat többet
-                else props.changeGameState("DRAWN_CARD1"); //ha nem vonatot húzott a játékos, húzhat még egyet
-            }
-            if(props.gameState === "DRAWN_CARD1") {
-                if(props.color !== "loco") { //ha már húzott egy színt, akkor vonatot nem húzhat
+        if(socket.id == props.players[props.currentPlayer].socketID) {
+            if(props.place === "deck") {
+                if(props.gameState === "NEW_ROUND") { 
                     props.drawCard(props.color);
-                    props.changeGameState("DRAWN_CARD2");
+                    if(props.color === "loco") props.changeGameState("DRAWN_CARD2"); //ha vonatot húzott a játékos, nem húzhat többet
+                    else props.changeGameState("DRAWN_CARD1"); //ha nem vonatot húzott a játékos, húzhat még egyet
+                }
+                if(props.gameState === "DRAWN_CARD1") {
+                    if(props.color !== "loco") { //ha már húzott egy színt, akkor vonatot nem húzhat
+                        props.drawCard(props.color);
+                        props.changeGameState("DRAWN_CARD2");
+                    }
                 }
             }
-        } 
+        }
+        else alert("Most nem te vagy soron!");
     };
 
     const handleDeckClick = () => {
-        const n = Math.floor(Math.random() * props.deck.length);
-        const color = props.deck[n].color;
-        props.drawCard(color);
+        if(socket.id == props.players[props.currentPlayer].socketID) {
+            const n = Math.floor(Math.random() * props.deck.length);
+            const color = props.deck[n].color;
+            props.drawCard(color);
+        }
+        else alert("Most nem te vagy soron!");
     };
 
     const handleDestClick = () => {
@@ -83,8 +89,8 @@ const Card = (props) => {
 }
 
 function mapState(state) {
-    const { deck, gameState, hoverObject, round } = state.game;
-    return { deck, gameState, hoverObject, round };
+    const { deck, gameState, hoverObject, round, players, currentPlayer } = state.game;
+    return { deck, gameState, hoverObject, round, players, currentPlayer };
 }
 
 const actionCreator = {

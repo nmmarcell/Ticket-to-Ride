@@ -2,6 +2,7 @@ import { types } from "./types";
 import { types as gameTypes } from "../game/types";
 import gameAction from "../game/action";
 import socket from "../../socket.js";
+import { useHistory } from "react-router";
 
 const syncState = ( roomID, state ) => dispatch => {
     socket.emit('sync-state', roomID, state, false, (syncResponse) => {
@@ -29,6 +30,7 @@ const createRoom = ( playerNumber, gameState ) => dispatch => {
     socket.emit('create-room', playerNumber, (socketResponse) => {
         if(socketResponse.status === 'ok') {
             dispatch({ type: types.CREATE_ROOM, roomID: socketResponse.roomId});
+            dispatch( {type: gameTypes.INITIALIZE_ROOMID, roomID: socketResponse.roomId} )
             socket.emit('sync-state', socketResponse.roomId, gameState, false, (syncResponse) => {
                 if(syncResponse.status === 'ok') {
                     dispatch( {type: types.SYNC_STATE} );
@@ -42,7 +44,7 @@ const createRoom = ( playerNumber, gameState ) => dispatch => {
     });
 }
 
-const joinRoom = ( roomID, gameState ) => dispatch => {
+const joinRoom = ( roomID, gameState, history ) => dispatch => {
     socket.emit('join-room', roomID, ( joinResponse ) => {
         if(joinResponse.status === 'ok') {
             dispatch( {type: types.JOIN_ROOM, roomID: roomID} );
@@ -64,7 +66,9 @@ const joinRoom = ( roomID, gameState ) => dispatch => {
             });
         }
         else {
-            console.log(joinResponse.message);
+            alert("Sikertelen csatlakozás");
+            history.push("joinlobby");
+            dispatch( {type: gameTypes.RESET_STORE} );
         }
     });
 } 

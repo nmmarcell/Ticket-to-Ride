@@ -1,5 +1,6 @@
 import { types } from "./types";
 import {ticketToRideData} from "../../assets/ticket-to-ride-data";
+import socket from "../../socket";
 
 function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -80,35 +81,60 @@ const initialState = {
     currentDestinations: [],
     hoverObject: {},
     destinations: Object.values(ticketToRideData.destinations),
-    longDestinations: Object.values(ticketToRideData.longDestinations)
+    longDestinations: Object.values(ticketToRideData.longDestinations),
+    roomID: ""
 };
 
 export function game(state = initialState, action) {
+    let newState = {};
+
     switch(action.type) {
         case types.ADD_PLAYER:
             return {
                 ...state,
-                players: [...state.players, {name: action.data.name, picture: action.data.picture, points: 0, trains: 45, cards: [], goals: [], builtConnections: []}]
+                players: [...state.players, {name: action.data.name, picture: action.data.picture, socketID: action.data.socketID, points: 0, trains: 45, cards: [], goals: [], builtConnections: []}]
             };
+
         case types.DRAW_CARD: 
-            return {
+            newState = {
                 ...state,
                 deck: removeCard(state.deck, action.color),
                 players: insertCard(state.players, state.currentPlayer, {color: action.color, type: "train"}),
                 currentCards: [...state.currentCards, {color: action.color, type: "train"}]
             };
+            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+                if(syncResponse.status !== 'ok') {
+                    console.log(syncResponse.message);
+                }
+            });
+            return newState;
+
         case types.CHAGE_GAMESTATE: 
-            return {
+            newState = {
                 ...state,
                 gameState: action.state
             };
+            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+                if(syncResponse.status !== 'ok') {
+                    console.log(syncResponse.message);
+                }
+            });
+            return newState;
+
         case types.CHOOSE_DESTINATION:
-            return {
+            newState = {
                 ...state,
                 destinations: removeDest(state.destinations, action.destinationID),
                 players: insertDest(state.players, state.currentPlayer, state.destinations.filter(e => e.id === action.destinationID), false),
                 currentDestinations: [...state.currentDestinations, state.destinations.filter(e => e.id === action.destinationID)[0]]
             };
+            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+                if(syncResponse.status !== 'ok') {
+                    console.log(syncResponse.message);
+                }
+            });
+            return newState;
+
         case types.NEXT_PLAYER:
             let ID = action.next;
             let newRound = state.round;
@@ -120,35 +146,61 @@ export function game(state = initialState, action) {
                 ID = action.next;
                 newRound = state.round;
             }
-            return {
+
+            newState = {
                 ...state,
                 round: newRound,
                 gameState: "NEW_ROUND",
                 currentPlayer: ID,
-                currentCards: state.players[ID].cards,
-                currentDestinations: state.players[ID].goals
+                //currentCards: state.players[ID].cards,
+                //currentDestinations: state.players[ID].goals
             };
+            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+                if(syncResponse.status !== 'ok') {
+                    console.log(syncResponse.message);
+                }
+            });
+            return newState;
+
+        case types.BUILD_CONNECTION:
+            newState = {
+                ...state,
+                players: insertConn(state.players, state.currentPlayer, action.connection)
+            };
+            socket.emit('sync-state', state.roomID, newState, false, (syncResponse) => {
+                if(syncResponse.status !== 'ok') {
+                    console.log(syncResponse.message);
+                }
+            });
+            return newState;
+
         case types.INITIALIZE_STORE:
+            const client = state.players.filter(e => e.socketID == socket.id);
+            console.log(client);
             return {
                 ...state,
-                currentCards: state.players[0].cards,
-                currentDestinations: state.players[0].goals
+                currentCards: client[0].cards,
+                currentDestinations: client[0].goals
             };
         case types.SET_HOVEROBJECT: 
             return {
                 ...state,
                 hoverObject: action.cities
             };
-        case types.BUILD_CONNECTION:
-            return {
-                ...state,
-                players: insertConn(state.players, state.currentPlayer, action.connection)
-            };
         case types.UPDATE_STATE:
             return {
                 ...state,
                 ...action.state
             }
+        case types.INITIALIZE_ROOMID: 
+            return {
+                ...state,
+                roomID: action.roomID
+            }
+        case types.RESET_STORE: 
+            return {
+                ...initialState
+            };
         default:
             return state;
     }

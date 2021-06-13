@@ -24,7 +24,7 @@ const Lobby = (props) => {
                     }  
                     else console.log(resp.message);
                 });
-            }, 500);
+            }, 500); //megfelelő sorrendiséghez
         });
 
         socket.on('room-is-full', (data) => {

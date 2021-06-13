@@ -9,12 +9,15 @@ import serverActions from "../store/connection/action";
 import gameActions from "../store/game/action";
 import { connect } from 'react-redux';
 import { store } from '../store';
+import socket from '../socket';
+import { useHistory } from 'react-router';
 
 const JoinLobby = (props) => {
     const [lobbyNumber, setLobbyNumber] = useState(0);
     const [playerName, setPlayerName] = useState("");
     const {lobbyValue, setLobbyValue} = useContext(LobbyContext);
     const [portraitNumber, setPortraitNumber] = useState(0);
+    let history = useHistory();
 
     const handleLobbyNumberChange = ((e) => {
         setLobbyNumber(e.target.value);
@@ -24,7 +27,7 @@ const JoinLobby = (props) => {
         setPlayerName(e.target.value);
     });
 
-    let isLinkDisabled = (playerName === "" || lobbyNumber < 100000 || lobbyNumber > 999999);
+    let isLinkDisabled = (playerName === "" || lobbyNumber === "");
 
     useEffect(() => {
         setPortraitNumber(Math.floor(Math.random() * 5) + 1);
@@ -37,8 +40,8 @@ const JoinLobby = (props) => {
                 name: playerName
             });
 
-            props.addPlayer(playerName, portraitNumber);
-            props.joinRoom(lobbyNumber, store.getState().game);
+            props.addPlayer(playerName, portraitNumber, socket.id);
+            props.joinRoom(lobbyNumber, store.getState().game, history);
         }
     };
 
@@ -69,8 +72,8 @@ const JoinLobby = (props) => {
 }
  
 function mapState(state) {
-    const {game} = state;
-    return {game};
+    const {roomID} = state.connection;
+    return {roomID};
 }
 
 const actionCreator = {

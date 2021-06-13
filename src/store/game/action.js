@@ -12,8 +12,8 @@ const chooseDestination = (id) => {
     return dispatch => dispatch({type: types.CHOOSE_DESTINATION, destinationID: id});
 }
 
-const addPlayer = (name, picture) => {
-    const data = {name: name, picture: picture};
+const addPlayer = (name, picture, socketID) => {
+    const data = {name: name, picture: picture, socketID: socketID};
     return dispatch => dispatch({type: types.ADD_PLAYER, data});
 }
 
@@ -37,6 +37,14 @@ const updateState = ( state ) => {
     return dispatch => dispatch( {type: types.UPDATE_STATE, state: state} );
 }
 
+const initializeRoomID = (roomID) => {
+    return dispatch => dispatch( {type: types.INITIALIZE_ROOMID, roomID: roomID} );
+}
+
+const resetStore = () => {
+    return dispatch => dispatch( {type: types.RESET_STORE} );
+}
+
 const actions = {
     draw,
     changeGameState,
@@ -46,7 +54,9 @@ const actions = {
     initializeStore,
     setHoverObject,
     buildConnection,
-    updateState
+    updateState,
+    initializeRoomID,
+    resetStore
 };
 
 export default actions;
